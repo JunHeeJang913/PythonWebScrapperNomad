@@ -16,8 +16,8 @@ def extractJob(html):
     title = html.find("find", {"class":"-title"}).find("h2").find("a")["title"]
     company, location = html.find("div", {"class":"-company"}).find_all("span",recursive=False)
     #unpacking value
-    company = company.get_text(strip=True)
-    location = company.get_text(strip=True)
+    company = company.get_text(strip=True).strip("\n")
+    location = company.get_text(strip=True).strip("-").strip("\n").strip(" \r")
 
     return {'title':title, 'company':company, 'location':location}
 
