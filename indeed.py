@@ -32,5 +32,12 @@ def extractIndeedJobs(lastPages):
 
     for result in results:
         title = result.find("h2",{"class":"title"}).find("a")["title"]
+        company = result.find("span",{"class":"company"})
+        if company.find("a") is not None:
+            company = str(company.find("a").string)
+        else:
+            company = str(company.string)
+        company = company.strip()
+        print(company)
 
     return jobs
