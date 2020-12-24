@@ -24,7 +24,13 @@ def extractIndeedPages():
 
 def extractIndeedJobs(lastPages):
     jobs = []
+
     for page in range(lastPages):
         result = requests.get(f"{URL}&start={page*LIMIT}")
-        print(result.status_code)
+        soup = BeautifulSoup(result.text, "html.parser")
+        results = soup.find_all("div", {"class":"jobsearch-SerpJobCard"})
+
+    for result in results:
+        title = result.find("h2",{"class":"title"}).find("a")["title"]
+
     return jobs
