@@ -52,3 +52,10 @@ def extractIndeedJobs(lastPages):
             jobs.append(job)
 
     return jobs
+
+def getJobs():
+    lastPages = extractIndeedPages()
+
+    jobs=extractIndeedJobs(lastPages)
+
+    return jobs
