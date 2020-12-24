@@ -22,22 +22,33 @@ def extractIndeedPages():
 
     return maxPage
 
-def extractIndeedJobs(lastPages):
+def extractJobs(html):
+    title = html.find("h2",{"class":"title"}).find("a")["title"]
+    company = html.find("span",{"class":"company"})
+
+    if company.find("a") is not None:
+        company = str(company.find("a").string)
+    else:
+        company = str(company.string)
+
+    company = company.strip() 
+
+    location = html.find("div", {"class":"recJobLoc"})["data-rc-loc"]
+
+    jobId=html["data-jk"]
+
+    return {'title':title,'company':company, 'location':location, "link":f"https://www.indeed.com/viewjob?jk={jobId}"}
+
+def extractIndeedJobs(lastPages):    
     jobs = []
 
     for page in range(lastPages):
+        print(f"Scrapping page {page}")
         result = requests.get(f"{URL}&start={page*LIMIT}")
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class":"jobsearch-SerpJobCard"})
-
-    for result in results:
-        title = result.find("h2",{"class":"title"}).find("a")["title"]
-        company = result.find("span",{"class":"company"})
-        if company.find("a") is not None:
-            company = str(company.find("a").string)
-        else:
-            company = str(company.string)
-        company = company.strip()
-        print(company)
+        for result in results:
+            job = extractJobs(result)
+            jobs.append(job)
 
     return jobs
