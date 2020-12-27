@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+from scrapper import getJobs
 
 app = Flask("SupperScrapper")
 
@@ -16,6 +17,11 @@ def home():
 @app.route("/report")
 def report():
     word = request.args.get('word')
+    if word:
+        word = word.lower()     #formating
+        jobs = getJobs(word)
+    else:
+        return redirect("/")
     return render_template("report.html",searchingBy=word)
-    
+
 app.run(host = "localhost")
