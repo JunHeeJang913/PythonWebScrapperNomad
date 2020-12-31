@@ -7,3 +7,5 @@ def saveToFile(jobs):
 
     for job in jobs:
         writer.writerow(list(job.values()))
+
+    return 

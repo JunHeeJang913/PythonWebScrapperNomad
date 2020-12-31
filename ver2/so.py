@@ -18,7 +18,7 @@ def extractJob(html):
     location = location.get_text(strip=True).strip("-").strip("\n")
     jobId = html['data-jobid']
 
-    return {'title':title, 'company':company, 'location':location, 'apply_link':f"https://stackoverflow.com/jobs/{jobId}"}
+    return {'title':title, 'company':company, 'location':location, 'link':f"https://stackoverflow.com/jobs/{jobId}"}
 
 def extractJobs(lastPage,URL):
     jobs = []
